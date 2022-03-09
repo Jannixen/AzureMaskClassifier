@@ -1,18 +1,13 @@
 import os
 
-import environ
 from flask import Flask, render_template, request, flash, redirect
 from werkzeug.utils import secure_filename
 
 from predictor import ImageMaskPredictor
 
-env = environ.Env()
-environ.Env.read_env()
-
 app = Flask(__name__)
-
-UPLOAD_FOLDER = env("UPLOAD_FOLDER")
-app.config['SECRET_KEY'] = env("SECRET_KEY")
+app.config['SECRET_KEY'] = 'mysecretkey'
+UPLOAD_FOLDER = './static/user_files/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -36,6 +31,7 @@ def prediction():
             img = open(full_filename, 'rb')
             image_predictor = ImageMaskPredictor()
             prediction1 = image_predictor.classify_image(img)
+            os.remove(full_filename)
             return render_template('prediction.html', pred=prediction1, user_image="/../" + full_filename)
         except NoFileException:
             flash('No file was added')
@@ -69,12 +65,10 @@ if __name__ == '__main__':
 
 
 class BadFileTypeException(Exception):
-    def __init__(self):
-        self.message = "Input file is not a photo"
-        super().__init__(self.message)
+    """Raised when the input file is not a photo"""
+    pass
 
 
 class NoFileException(Exception):
-    def __init__(self):
-        self.message = "File not found exception"
-        super().__init__(self.message)
+    """File not found exception"""
+    pass

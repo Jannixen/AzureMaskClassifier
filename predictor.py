@@ -1,22 +1,18 @@
-import environ
 from azure.cognitiveservices.vision.customvision.prediction import CustomVisionPredictionClient
 from msrest.authentication import ApiKeyCredentials
 
-env = environ.Env()
-environ.Env.read_env()
+PREDICTION_KEY_CUSTOM_VISION = "dbacb62631b2451f8dcc68c91137f910"
+ENDOPINT_CUSTOM_VISION = "https://machinelearning1-prediction.cognitiveservices.azure.com/"
 
-PREDICTION_KEY_CUSTOM_VISION = env("PREDICTION_KEY_CUSTOM_VISION")
-ENDPOINT_CUSTOM_VISION = env("ENDOPINT_CUSTOM_VISION ")
-
-ITERATION_MASKS = env("ITERATION")
-PROJECT_ID_MASKS = env("PROJECT_ID")
+ITERATION_MASKS = "Iteration1"
+PROJECT_ID_MASKS = "a6c728d3-4aa9-4bd4-b2ed-0e2ccb054a2b"
 
 
 class ImageMaskPredictor:
 
     def __init__(self):
         prediction_credentials = ApiKeyCredentials(in_headers={"Prediction-key": PREDICTION_KEY_CUSTOM_VISION})
-        self.predictor = CustomVisionPredictionClient(ENDPOINT_CUSTOM_VISION, prediction_credentials)
+        self.predictor = CustomVisionPredictionClient(ENDOPINT_CUSTOM_VISION, prediction_credentials)
 
     def classify_image(self, image):
         probabilities = self.detect_mask(image)
