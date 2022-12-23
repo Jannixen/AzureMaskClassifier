@@ -1,11 +1,12 @@
 from azure.cognitiveservices.vision.customvision.prediction import CustomVisionPredictionClient
 from msrest.authentication import ApiKeyCredentials
 
-PREDICTION_KEY_CUSTOM_VISION = "dbacb62631b2451f8dcc68c91137f910"
+from config import PREDICTION_KEY_CUSTOM_VISION, PROJECT_ID_MASKS
+
 ENDOPINT_CUSTOM_VISION = "https://machinelearning1-prediction.cognitiveservices.azure.com/"
 
 ITERATION_MASKS = "Iteration1"
-PROJECT_ID_MASKS = "a6c728d3-4aa9-4bd4-b2ed-0e2ccb054a2b"
+
 
 
 class ImageMaskPredictor:
